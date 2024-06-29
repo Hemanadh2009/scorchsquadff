@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .bg-gift {
+            background-image: url('./assets/ff1.gif'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+        }
+        #thank-you-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            z-index: 1000;
+            visibility: hidden;
+        }
+        #thank-you-message.visible {
+            visibility: visible;
+        }
+    </style>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function() {
+            emailjs.init("YOUR_USER_ID"); // Replace 'YOUR_USER_ID' with your EmailJS user ID
+        })();
+    </script>
+</head>
+<body>
+    <header class="bg-blue-600 bg-opacity-100 text-white p-8">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <h1 class="text-xl font-bold">Scorch Squad FF</h1>
+            <nav class="flex-grow">
+                <div class="flex justify-center space-x-4">
+                    <a href="index.html" class="text-white">Home</a>
+                    <a href="videos.html" class="text-white">Videos</a>
+                    <a href="about.html" class="text-white">About</a>
+                    <a href="contact.html" class="text-white">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-6">
+        <h2 class="text-2xl font-semibold text-gray-800">Contact Form</h2>
+        <form id="contact-form" class="mt-4">
+            <div class="flex -mx-2 mb-4">
+                <div class="w-1/2 px-2">
+                    <label class="block text-gray-700">First Name</label>
+                    <input type="text" name="first_name" class="w-full border rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500" placeholder="First Name" required>
+                </div>
+                <div class="w-1/2 px-2">
+                    <label class="block text-gray-700">Last Name</label>
+                    <input type="text" name="last_name" class="w-full border rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500" placeholder="Last Name" required>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <input type="email" name="email" class="w-full border rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500" placeholder="Email" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Message</label>
+                <textarea name="message" class="w-full border rounded-lg py-2 px-4 text-gray-700 focus:outline-none focus:border-blue-500" placeholder="Your message" required></textarea>
+            </div>
+            <button type="submit" id="submit-btn" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500">Send feedback</button>
+        </form>
+        <div id="thank-you-message" class="text-center">
+            <div>Thank you for your feedback</div>
+            <button type="button" id="done-btn" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-500 mt-4">Done</button>
+        </div>
+    </main>
+    
+    <footer class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Scorch Squad FF. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+    
+            // Show the thank you message immediately
+            document.getElementById('thank-you-message').classList.add('visible');
+    
+            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+                .then(function() {
+                    // Form submitted successfully, no additional action needed
+                }, function(error) {
+                    console.log('FAILED...', error);
+                });
+        });
+    
+        document.getElementById('done-btn').addEventListener('click', function() {
+            // Hide the thank you message
+            document.getElementById('thank-you-message').classList.remove('visible');
+        });
+    </script>
+    
+</body>
+</html>
